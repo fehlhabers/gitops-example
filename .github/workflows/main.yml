@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "apps/**"
   pull_request:
     branches:
       - main
+    paths:
+      - "apps/**"
 
 jobs:
   build-scan:
@@ -32,3 +36,18 @@ jobs:
       uses: github/codeql-action/analyze@v2
       with:
         category: "/language:go"
+
+  pre-check:
+    name: Pre-checks Passed
+    runs-on: ubuntu-latest
+    needs: [build-scan]
+    if: always()
+    steps:
+      - run: |
+          if [ ${{ contains(needs.*.result, 'failure') }} = 'true' ]; then
+            echo "At least one of the checks failed!"
+            exit 1
+          fi
+          echo "Success!"
+
+
