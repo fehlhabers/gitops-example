@@ -29,6 +29,7 @@ jobs:
         id: tag
         uses: mathieudutour/github-tag-action@v6.1
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           # Follow Golang tagging for mono repos
           tag_prefix: apps/${{ matrix.app }}/v
           # Make sure the latest of a specific tag is always found
