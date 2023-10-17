@@ -1,0 +1,32 @@
+name: Pipeline Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/**"
+
+jobs:
+  gh-lint:
+    name: Lint pipeline
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Todo
+      run: echo "Implement linting"
+
+  pre-check:
+    name: Pre-checks Passed
+    runs-on: ubuntu-latest
+    needs: [gh-lint]
+    if: always()
+    steps:
+      - run: |
+          if [ ${{ contains(needs.*.result, 'failure') }} = 'true' ]; then
+            echo "At least one of the checks failed!"
+            exit 1
+          fi
+          echo "Success!"
+
+
