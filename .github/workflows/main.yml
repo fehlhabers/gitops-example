@@ -11,6 +11,7 @@ on:
       - main
     paths:
       - "apps/**"
+
   schedule:
     # Every sunday morning
     - cron: '30 3 * * 0'
@@ -38,7 +39,6 @@ jobs:
 
     - uses: github/codeql-action/init@v2
       with:
-        config-file: ./.github/codeql/codeql-config.yaml
         languages: go
 
     - uses: actions/setup-go@v2
@@ -49,6 +49,8 @@ jobs:
       run: go build .
 
     - uses: github/codeql-action/analyze@v2
+      with:
+        category: ${{ matrix.app }}
 
   pre-check:
     name: Pre-checks Passed
