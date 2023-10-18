@@ -2,7 +2,7 @@ name: Publish
 
 on:
   push:
-    branch:
+    branches:
       - main
     paths:
       - apps/**
@@ -16,6 +16,9 @@ jobs:
     strategy:
       matrix:
         app: [cruncher]
+    defaults:
+      run:
+        working-directory: apps/${{ matrix.app }}
     steps:
       # Always checkout latest commit
       - uses: actions/checkout@v4
@@ -41,6 +44,6 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker tag $IMAGE_NAME $IMAGE_ID:latest
+          docker tag ${{ matrix.app }} $IMAGE_ID:$VERSION
+          docker tag ${{ matrix.app }} $IMAGE_ID:latest
           docker push --all-tags $IMAGE_ID

@@ -12,30 +12,48 @@ on:
     paths:
       - "apps/**"
 
+  schedule:
+    # Every sunday morning
+    - cron: '30 3 * * 0'
+
+# This environment is necessary to avoid the following issue
+# https://github.com/github/codeql/issues/6321
+env:
+  CODEQL_EXTRACTOR_GO_BUILD_TRACING: 'on'
+
 jobs:
   build-scan:
     name: Build & Scan
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [cruncher]
     permissions:
       actions: read
       contents: read
       security-events: write
+    defaults:
+      run:
+        working-directory: apps/${{ matrix.app }}
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+    - uses: github/codeql-action/init@v2
       with:
         languages: go
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+    - uses: actions/setup-go@v2
       with:
-        category: "/language:go"
+        go-version-file: apps/${{ matrix.app }}/go.mod
+        cache-dependency-path: apps/${{ matrix.app }}/go.mod
+
+    - uses: github/codeql-action/autobuild@v2
+      with:
+        working-directory: apps/${{ matrix.app }}
+    - uses: github/codeql-action/analyze@v2
+      with:
+        category: ${{ matrix.app }}
 
   pre-check:
     name: Pre-checks Passed
@@ -49,5 +67,4 @@ jobs:
             exit 1
           fi
           echo "Success!"
-
 
