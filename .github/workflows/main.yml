@@ -41,7 +41,6 @@ jobs:
 
     - uses: github/codeql-action/init@v2
       with:
-        # config-file: codeql.yml
         languages: go
 
     - uses: actions/setup-go@v2
