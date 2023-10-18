@@ -44,6 +44,6 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker tag $IMAGE_NAME $IMAGE_ID:latest
+          docker tag ${{ matrix.app }} $IMAGE_ID:$VERSION
+          docker tag ${{ matrix.app }} $IMAGE_ID:latest
           docker push --all-tags $IMAGE_ID
