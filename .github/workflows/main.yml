@@ -36,7 +36,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - uses: github/codeql-action/init@v1
+    - uses: github/codeql-action/init@v2
       with:
         config-file: ./.github/codeql/codeql-config.yaml
         languages: go
@@ -48,7 +48,7 @@ jobs:
     - name: Build Go sources
       run: go build .
 
-    - uses: github/codeql-action/analyze@v1
+    - uses: github/codeql-action/analyze@v2
 
   pre-check:
     name: Pre-checks Passed
