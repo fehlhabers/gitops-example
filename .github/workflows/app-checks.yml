@@ -6,11 +6,15 @@ on:
       - main
     paths:
       - "apps/**"
+    ignore-paths:
+      - "**/*.md"
   pull_request:
     branches:
       - main
     paths:
       - "apps/**"
+    ignore-paths:
+      - "**/*.md"
 
   schedule:
     # Every sunday morning
