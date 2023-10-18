@@ -42,6 +42,7 @@ jobs:
 
     - uses: github/codeql-action/init@v2
       with:
+        config-file: apps/${{ matrix.app }}/codeql-config.yml
         languages: go
 
     - uses: actions/setup-go@v2
@@ -49,10 +50,7 @@ jobs:
         go-version: ${{ env.GO_VERSION }}
 
     - name: Build Go sources
-      run: |
-        pwd
-        ls
-        go build .
+      run: go build .
 
     - uses: github/codeql-action/analyze@v2
       with:
