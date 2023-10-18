@@ -16,6 +16,9 @@ jobs:
     strategy:
       matrix:
         app: [cruncher]
+    defaults:
+      run:
+        working-directory: apps/${{ matrix.app }}
     steps:
       # Always checkout latest commit
       - uses: actions/checkout@v4
