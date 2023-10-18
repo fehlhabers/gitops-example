@@ -1,0 +1,2 @@
+name: "CodeQL config"
+# The analysis step needs this config when working with subdirs
